@@ -1,0 +1,25 @@
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MyValueClassTest {
+
+    @Value("#{'${my.list.property}'.split(',')}")
+    private List<String> myListProperty;
+
+    @Test
+    public void testMyValueClass() {
+        // Use ReflectionTestUtils to set the value of myListProperty
+        ReflectionTestUtils.setField(this, "myListProperty", List.of("value1", "value2", "value3"));
+
+        // Now you can assert or perform operations based on the list property
+        assertEquals(3, myListProperty.size());
+        assertEquals("value1", myListProperty.get(0));
+        assertEquals("value2", myListProperty.get(1));
+        assertEquals("value3", myListProperty.get(2));
+    }
+}
